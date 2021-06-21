@@ -79,6 +79,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Activity manager code dealing with content providers.
@@ -979,13 +981,46 @@ public class ContentProviderHelper {
         return null;
     }
 
+    private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+
+    void getProviderMimeTypeAsync(Uri uri, int userId, RemoteCallback resultCallback) {
+        class WithCallingIdentityRequest implements Runnable {
+            final Runnable realTask;
+            final long callingIdentity;
+            public WithCallingIdentityRequest(Runnable realTask) {
+                // First we retrieve the calling identity of the remote caller
+                this.callingIdentity = Binder.clearCallingIdentity();
+                this.realTask = realTask;
+                Binder.restoreCallingIdentity(this.callingIdentity);
+            }
+
+            @Override
+            public void run() {
+                try {
+                    // Then fake up the calling identity on the worker thread to make the callee
+                    // thinks it's being directly invoked on a binder thread
+                    Binder.restoreCallingIdentity(callingIdentity);
+                    this.realTask.run();
+                } catch (Exception e) {
+                    Log.w(TAG, "Failed to query mime type of " + uri, e);
+                }
+            }
+        }
+        mExecutor.submit(new WithCallingIdentityRequest(
+            () -> doGetProviderMimeTypeAsync(uri, userId, resultCallback)));
+    }
+
     /**
      * Allows apps to retrieve the MIME type of a URI.
      * If an app is in the same user as the ContentProvider, or if it is allowed to interact across
      * users, then it does not need permission to access the ContentProvider.
      * Either way, it needs cross-user uri grants.
      */
-    void getProviderMimeTypeAsync(Uri uri, int userId, RemoteCallback resultCallback) {
+    void doGetProviderMimeTypeAsync(Uri uri, int userId, RemoteCallback resultCallback) {
+        // If the calling process is already dead, fail fast
+        if (!resultCallback.isAlive()) {
+            return;
+        }
         mService.enforceNotIsolatedCaller("getProviderMimeTypeAsync");
         final String name = uri.getAuthority();
         final int callingUid = Binder.getCallingUid();

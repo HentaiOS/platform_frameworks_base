@@ -84,6 +84,17 @@ public final class RemoteCallback implements Parcelable {
         }
     }
 
+    public boolean isAlive() {
+        if (mListener != null ) {
+            return true;
+        }
+        try {
+            return mCallback.asBinder().isBinderAlive();
+        } catch (RemoteException e) {
+           return false;
+        }
+    }
+
     @Override
     public int describeContents() {
         return 0;
