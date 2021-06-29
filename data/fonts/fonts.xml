@@ -24,22 +24,16 @@
     <family name="sans-serif">
         <font weight="100" style="normal">Roboto-Thin.ttf</font>
         <font weight="100" style="italic">Roboto-ThinItalic.ttf</font>
-        <font weight="200" style="normal">Roboto-ExtraLight.ttf</font>
-        <font weight="200" style="italic">Roboto-ExtraLightItalic.ttf</font>
         <font weight="300" style="normal">Roboto-Light.ttf</font>
         <font weight="300" style="italic">Roboto-LightItalic.ttf</font>
         <font weight="400" style="normal">Roboto-Regular.ttf</font>
         <font weight="400" style="italic">Roboto-Italic.ttf</font>
         <font weight="500" style="normal">Roboto-Medium.ttf</font>
         <font weight="500" style="italic">Roboto-MediumItalic.ttf</font>
-        <font weight="600" style="normal">Roboto-SemiBold.ttf</font>
-        <font weight="600" style="italic">Roboto-SemiBoldItalic.ttf</font>
-        <font weight="900" style="normal">Roboto-Black.ttf</font>
-        <font weight="900" style="italic">Roboto-BlackItalic.ttf</font>
         <font weight="700" style="normal">Roboto-Bold.ttf</font>
         <font weight="700" style="italic">Roboto-BoldItalic.ttf</font>
-        <font weight="800" style="normal">Roboto-ExtraBold.ttf</font>
-        <font weight="800" style="italic">Roboto-ExtraBoldItalic.ttf</font>
+        <font weight="900" style="normal">Roboto-Black.ttf</font>
+        <font weight="900" style="italic">Roboto-BlackItalic.ttf</font>
     </family>
 
     <!-- Note that aliases must come after the fonts they reference. -->
@@ -603,7 +597,100 @@
     <family lang="und-Zsym">
         <font weight="400" style="normal">NotoSansSymbols-Regular-Subsetted2.ttf</font>
     </family>
-    <!-- Noto Sans will be the default fallback font.-->
+    <!-- Inter Variable will be the first fallback font -->
+    <family>
+        <font weight="100" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="26.0" />
+        </font>
+        <font weight="100" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="26.0" />
+        </font>
+        <font weight="200" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="39.0" />
+        </font>
+        <font weight="200" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="39.0" />
+        </font>
+        <font weight="300" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="58.0" />
+        </font>
+        <font weight="300" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="58.0" />
+        </font>
+        <font weight="400" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="90.0" />
+        </font>
+        <font weight="400" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="90.0" />
+        </font>
+        <font weight="500" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="108.0" />
+        </font>
+        <font weight="500" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="108.0" />
+        </font>
+        <font weight="600" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="128.0" />
+        </font>
+        <font weight="600" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="128.0" />
+        </font>
+        <font weight="700" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="151.0" />
+        </font>
+        <font weight="700" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="151.0" />
+        </font>
+        <font weight="800" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="169.0" />
+        </font>
+        <font weight="800" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="169.0" />
+        </font>
+        <font weight="900" style="normal">InterVF-Roman.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="190.0" />
+        </font>
+        <font weight="900" style="normal">InterVF-Italic.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100.0" />
+            <axis tag="wght" stylevalue="190.0" />
+        </font>
+    </family>
+    <!-- Noto Sans will be the second fallback font.-->
     <family>
         <font weight="100" style="normal">NotoSans-Thin.ttf</font>
         <font weight="100" style="italic">NotoSans-ThinItalic.ttf</font>
