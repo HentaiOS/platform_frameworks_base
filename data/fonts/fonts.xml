@@ -603,24 +603,98 @@
     <family lang="und-Zsym">
         <font weight="400" style="normal">NotoSansSymbols-Regular-Subsetted2.ttf</font>
     </family>
-    <!-- Noto Sans will be the default fallback font.-->
+    <!-- RobotoVF will be the default fallback font.-->
     <family>
-        <font weight="100" style="normal">NotoSans-Thin.ttf</font>
-        <font weight="100" style="italic">NotoSans-ThinItalic.ttf</font>
-        <font weight="200" style="normal">NotoSans-ExtraLight.ttf</font>
-        <font weight="200" style="italic">NotoSans-ExtraLightItalic.ttf</font>
-        <font weight="300" style="normal">NotoSans-Light.ttf</font>
-        <font weight="300" style="italic">NotoSans-LightItalic.ttf</font>
-        <font weight="400" style="normal">NotoSans-Regular.ttf</font>
-        <font weight="400" style="italic">NotoSans-Italic.ttf</font>
-        <font weight="500" style="normal">NotoSans-Medium.ttf</font>
-        <font weight="500" style="italic">NotoSans-MediumItalic.ttf</font>
-        <font weight="900" style="normal">NotoSans-Black.ttf</font>
-        <font weight="900" style="italic">NotoSans-BlackItalic.ttf</font>
-        <font weight="700" style="normal">NotoSans-Bold.ttf</font>
-        <font weight="700" style="italic">NotoSans-BoldItalic.ttf</font>
-        <font weight="800" style="normal">NotoSans-ExtraBold.ttf</font>
-        <font weight="800" style="italic">NotoSans-ExtraBoldItalic.ttf</font>
+        <font weight="100" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="100"/>
+        </font>
+        <font weight="100" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="100"/>
+        </font>
+        <font weight="200" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="200"/>
+        </font>
+        <font weight="200" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="200"/>
+        </font>
+        <font weight="300" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="300"/>
+        </font>
+        <font weight="300" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="300"/>
+        </font>
+        <font weight="400" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="400"/>
+        </font>
+        <font weight="400" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="400"/>
+        </font>
+        <font weight="500" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="500"/>
+        </font>
+        <font weight="500" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="500"/>
+        </font>
+        <font weight="600" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="600"/>
+        </font>
+        <font weight="600" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="600"/>
+        </font>
+        <font weight="700" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="700"/>
+        </font>
+        <font weight="700" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="700"/>
+        </font>
+        <font weight="800" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="800"/>
+        </font>
+        <font weight="800" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="800"/>
+        </font>
+        <font weight="900" style="normal">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="0"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="900"/>
+        </font>
+        <font weight="900" style="italic">RobotoVF-Fallback.ttf
+            <axis tag="ital" stylevalue="1"/>
+            <axis tag="wdth" stylevalue="100"/>
+            <axis tag="wght" stylevalue="900"/>
+        </font>
     </family>
     <!--
         Tai Le, Yi, Mongolian, and Phags-pa are intentionally kept last, to make sure they don't
