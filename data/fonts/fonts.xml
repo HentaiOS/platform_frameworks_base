@@ -790,8 +790,4 @@
     <family lang="und-Wara">
         <font weight="400" style="normal">NotoSansWarangCiti-Regular.otf</font>
     </family>
-    <!-- Absolute Last Resort.-->
-    <family>
-        <font weight="400" style="normal">LastResort.ttf</font>
-    </family>
 </familyset>
