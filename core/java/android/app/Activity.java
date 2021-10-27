@@ -5343,7 +5343,8 @@ public class Activity extends ContextThemeWrapper
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
-        return getPackageManager().shouldShowRequestPermissionRationale(permission);
+        return getApplication().getPackageManager()
+            .shouldShowRequestPermissionRationale(permission);
     }
 
     /**
