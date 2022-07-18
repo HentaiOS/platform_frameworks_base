@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d362f3_2a06cdc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2022-07-18T17:10:16Z",
+      "side": 1,
+      "message": "A bit heads-up, this MR also reverting commit I5662fa1b219958a3b4adf719207d307195e449ee.",
+      "revId": "3f6a0261c6020d1f8252e6c92a422ff8568c41e9",
+      "serverId": "90ec3431-229f-4ad1-9645-e5b063dc3de3"
+    }
+  ],
   "submitRequirementResults": []
 }
