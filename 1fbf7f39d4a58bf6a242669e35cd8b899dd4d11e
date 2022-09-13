@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dd18d4_c2581b70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2022-09-13T02:03:07Z",
+      "side": 1,
+      "message": "Fixes external sdcard visibility and writability on amogus(_doha) platforms",
+      "revId": "1fbf7f39d4a58bf6a242669e35cd8b899dd4d11e",
+      "serverId": "90ec3431-229f-4ad1-9645-e5b063dc3de3"
+    }
+  ]
+}
