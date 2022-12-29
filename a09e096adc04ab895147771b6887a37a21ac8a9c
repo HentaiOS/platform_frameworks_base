@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5097c27b_86287b68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2022-12-29T04:45:04Z",
+      "side": 1,
+      "message": "LGTM, regression test required for other targets before approval",
+      "revId": "a09e096adc04ab895147771b6887a37a21ac8a9c",
+      "serverId": "90ec3431-229f-4ad1-9645-e5b063dc3de3"
+    }
+  ]
+}
