@@ -2041,7 +2041,7 @@ public class CarrierConfigManager {
      * {@link #CARRIER_NR_AVAILABILITY_NSA},{@link #CARRIER_NR_AVAILABILITY_SA}} will apply.
      */
     public static final String KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY =
-            "carrier_nr_availabilities_int_array";
+            "carrier_nr_availabilities_hos_int_array";
 
     /**
      * Boolean to decide whether LTE is enabled.
