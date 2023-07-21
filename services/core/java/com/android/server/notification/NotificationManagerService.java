@@ -2317,6 +2317,7 @@ public class NotificationManagerService extends SystemService {
                 mAppOps,
                 new SysUiStatsEvent.BuilderFactory(),
                 mShowReviewPermissionsNotification);
+        mPreferencesHelper.updateFixedImportance(mUm.getUsers());
         mRankingHelper = new RankingHelper(getContext(),
                 mRankingHandler,
                 mPreferencesHelper,
@@ -2759,9 +2760,6 @@ public class NotificationManagerService extends SystemService {
             maybeShowInitialReviewPermissionsNotification();
         } else if (phase == SystemService.PHASE_ACTIVITY_MANAGER_READY) {
             mSnoozeHelper.scheduleRepostsForPersistedNotifications(System.currentTimeMillis());
-        } else if (phase == SystemService.PHASE_DEVICE_SPECIFIC_SERVICES_READY) {
-            mPreferencesHelper.updateFixedImportance(mUm.getUsers());
-            mPreferencesHelper.migrateNotificationPermissions(mUm.getUsers());
         }
     }
 
