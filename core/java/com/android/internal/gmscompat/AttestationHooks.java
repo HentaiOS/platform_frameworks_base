@@ -18,6 +18,8 @@ package com.android.internal.gmscompat;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.SystemProperties;
 import android.text.TextUtils;
@@ -30,6 +32,7 @@ import java.util.Arrays;
 public final class AttestationHooks {
     private static final String TAG = "GmsCompat/Attestation";
 
+    private static final String PACKAGE_SVT = "com.hentai.lewdb.svt";
     private static final String PACKAGE_GMS = "com.google.android.gms";
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PROCESS_UNSTABLE = "com.google.android.gms.unstable";
@@ -55,12 +58,32 @@ public final class AttestationHooks {
         }
     }
 
-    private static void spoofBuildGms() {
-        // Alter model name and fingerprint to avoid hardware attestation enforcement
-        setBuildField("FINGERPRINT", "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
-        setBuildField("DEVICE", "bullhead");
-        setBuildField("PRODUCT", "bullhead");
-        setBuildField("MODEL", "Nexus 5X");
+    public static void spoofBuildGms(Context context) {
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            Resources resources = pm.getResourcesForApplication(PACKAGE_SVT);
+
+            int resourceId = resources.getIdentifier("certifiedBuildProperties", "array", PACKAGE_SVT);
+            String[] sCertifiedProps = resources.getStringArray(resourceId);
+
+            if (sCertifiedProps.length == 6) {
+                String[] array = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT"};
+
+                for (int i = 0; i < array.length; i++) {
+                    if (!sCertifiedProps[i].isEmpty()) {
+                        setBuildField(array[i], sCertifiedProps[i]);
+                    }
+                }
+            } else {
+                Log.e(TAG, "Insufficient array size for certified props: "
+                    + sCertifiedProps.length + ", required 6");
+                return;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.i(TAG, "Error accessing resources for '" + PACKAGE_SVT + "': " + e.getMessage());
+            return;
+        }
     }
 
     public static void initApplicationBeforeOnCreate(Context context) {
@@ -74,7 +97,7 @@ public final class AttestationHooks {
         if (packageName.equals(PACKAGE_GMS) &&
                 processName.equals(PROCESS_UNSTABLE)) {
             sIsGms = true;
-            spoofBuildGms();
+            spoofBuildGms(context);
         }
 
         if (packageName.equals(PACKAGE_FINSKY)) {
