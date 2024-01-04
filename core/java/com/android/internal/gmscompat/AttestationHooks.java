@@ -37,6 +37,7 @@ public final class AttestationHooks {
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PROCESS_UNSTABLE = "com.google.android.gms.unstable";
 
+    private static volatile boolean sIsSvt = false;
     private static volatile boolean sIsGms = false;
     private static volatile boolean sIsFinsky = false;
 
@@ -67,16 +68,17 @@ public final class AttestationHooks {
             int resourceId = resources.getIdentifier("certifiedBuildProperties", "array", PACKAGE_SVT);
             String[] sCertifiedProps = resources.getStringArray(resourceId);
 
-            if (sCertifiedProps.length == 6) {
-                String[] array = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT"};
+            if (sCertifiedProps.length >= 6) {
+                sIsSvt = true;
+                String[] array = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT", "TYPE", "TAGS"};
 
                 for (int i = 0; i < array.length; i++) {
-                    if (!sCertifiedProps[i].isEmpty()) {
+                    if (sCertifiedProps[i] != null && !sCertifiedProps[i].isEmpty()) {
                         setBuildField(array[i], sCertifiedProps[i]);
                     }
                 }
             } else {
-                Log.e(TAG, "Insufficient array size for certified props: "
+                Log.d(TAG, "Insufficient array size for certified props: "
                     + sCertifiedProps.length + ", required 6");
                 return;
             }
@@ -112,7 +114,7 @@ public final class AttestationHooks {
 
     public static void onEngineGetCertificateChain() {
         // Check stack for SafetyNet or Play Integrity
-        if (isCallerSafetyNet() || sIsFinsky) {
+        if (sIsSvt && (isCallerSafetyNet() || sIsFinsky)) {
             Log.i(TAG, "Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);
             throw new UnsupportedOperationException();
         }
