@@ -59,27 +59,32 @@ public final class AttestationHooks {
         }
     }
 
-    public static void spoofBuildGms(Context context) {
+    private static void spoofBuildGms(Context context) {
         PackageManager pm = context.getPackageManager();
 
         try {
             Resources resources = pm.getResourcesForApplication(PACKAGE_SVT);
-
             int resourceId = resources.getIdentifier("certifiedBuildProperties", "array", PACKAGE_SVT);
-            String[] sCertifiedProps = resources.getStringArray(resourceId);
 
-            if (sCertifiedProps.length == 6) {
-                sIsSvt = true;
-                String[] array = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT"};
+            if (resourceId != 0) {
+                String[] sCertifiedProps = resources.getStringArray(resourceId);
+                String[] buildProperties = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT", "TYPE", "TAGS"};
 
-                for (int i = 0; i < array.length; i++) {
-                    if (sCertifiedProps[i] != null && !sCertifiedProps[i].isEmpty()) {
-                        setBuildField(array[i], sCertifiedProps[i]);
+                if (sCertifiedProps != null) {
+                    sIsSvt = true;
+
+                    for (String prop : buildProperties) {
+                        int index = Arrays.asList(buildProperties).indexOf(prop);
+                        if (index < sCertifiedProps.length && sCertifiedProps[index] != null && !sCertifiedProps[index].isEmpty()) {
+                            setBuildField(prop, sCertifiedProps[index]);
+                        }
                     }
+                } else {
+                    Log.d(TAG, "sCertifiedProps is null");
+                    return;
                 }
             } else {
-                Log.d(TAG, "Insufficient array size for certified props: "
-                    + sCertifiedProps.length + ", required 6");
+                Log.d(TAG, "Resource ID is not found");
                 return;
             }
         } catch (PackageManager.NameNotFoundException e) {
