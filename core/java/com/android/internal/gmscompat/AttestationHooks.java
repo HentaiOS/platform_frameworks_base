@@ -68,7 +68,7 @@ public final class AttestationHooks {
             int resourceId = resources.getIdentifier("certifiedBuildProperties", "array", PACKAGE_SVT);
             String[] sCertifiedProps = resources.getStringArray(resourceId);
 
-            if (sCertifiedProps.length == 6) {
+            if (resourceId != 0 && sCertifiedProps.length == 6) {
                 sIsSvt = true;
                 String[] array = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT"};
 
