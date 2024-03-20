@@ -118,6 +118,8 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
+import com.android.internal.hentaiutils.HentaiConfigUtils;
+
 /**
  * The Settings provider contains global system-level device preferences.
  */
@@ -19811,7 +19813,18 @@ public final class Settings {
         @RequiresPermission(Manifest.permission.WRITE_DEVICE_CONFIG)
         public static boolean putString(@NonNull String namespace,
                 @NonNull String name, @Nullable String value, boolean makeDefault) {
+            Context context = ActivityThread.currentApplication().getApplicationContext();
             ContentResolver resolver = getContentResolver();
+
+            // Check if the value should be overridden
+            String overriddenValue = HentaiConfigUtils.setOverriddenValue(context, namespace, name);
+            if (overriddenValue != null) {
+                String[] parts = overriddenValue.split("=");
+                if (parts.length == 2) {
+                    name = parts[0];
+                    value = parts[1];
+                }
+            }
             return sNameValueCache.putStringForUser(resolver, createCompositeName(namespace, name),
                     value, null, makeDefault, resolver.getUserId(),
                     DEFAULT_OVERRIDEABLE_BY_RESTORE);
@@ -19832,7 +19845,9 @@ public final class Settings {
         public static boolean setStrings(@NonNull String namespace,
                 @NonNull Map<String, String> keyValues)
                 throws DeviceConfig.BadConfigException {
-            return setStrings(getContentResolver(), namespace, keyValues);
+            Context context = ActivityThread.currentApplication().getApplicationContext();
+            boolean result = setStrings(getContentResolver(), namespace, keyValues);
+            return result;
         }
 
         /**
@@ -19905,6 +19920,7 @@ public final class Settings {
         public static void resetToDefaults(@ResetMode int resetMode,
                 @Nullable String namespace) {
             try {
+                Context context = ActivityThread.currentApplication().getApplicationContext();
                 ContentResolver resolver = getContentResolver();
                 Bundle arg = new Bundle();
                 arg.putInt(CALL_METHOD_USER_KEY, resolver.getUserId());
