@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2021 The Android Open Source Project
+ * Copyright (C) 2024 The hentaiOS Project and its Proprietors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.android.internal.gmscompat;
+package com.android.internal.hentaiutils;
 
 import android.app.Application;
 import android.content.Context;
@@ -29,9 +30,10 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /** @hide */
-public final class AttestationHooks {
-    private static final String TAG = "GmsCompat/Attestation";
+public final class HentaiSpoofer {
+    private static final String TAG = "HentaiSpoofer";
 
+    // Play Integrity
     private static final String PACKAGE_SVT = "com.hentai.lewdb.svt";
     private static final String PACKAGE_GMS = "com.google.android.gms";
     private static final String PACKAGE_FINSKY = "com.android.vending";
@@ -41,7 +43,18 @@ public final class AttestationHooks {
     private static volatile boolean sIsGms = false;
     private static volatile boolean sIsFinsky = false;
 
-    private AttestationHooks() { }
+    // Product Spoofing
+    private static final String PACKAGE_SPT = "com.hentai.product.spt";
+    private static final String[] PROCESSES_SPT = {
+        // Google
+        "com.google.android.googlequicksearchbox",
+        // Photos
+        "com.google.android.apps.photos",
+        // Pixel Launcher
+        "com.google.android.apps.nexuslauncher",
+    };
+
+    private HentaiSpoofer() { }
 
     private static void setBuildField(String key, String value) {
         try {
@@ -59,7 +72,17 @@ public final class AttestationHooks {
         }
     }
 
-    private static void spoofBuildGms(Context context) {
+    private static boolean spoofProcesses(String processName, String[] spoofProcesses) {
+        for (String spoofProcess : spoofProcesses) {
+            if (processName.startsWith(spoofProcess)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Play Integrity
+    private static void spoofGmsAttest(Context context) {
         PackageManager pm = context.getPackageManager();
 
         try {
@@ -81,16 +104,47 @@ public final class AttestationHooks {
                     }
                 } else {
                     Log.d(TAG, "sCertifiedProps is null");
-                    return;
                 }
             } else {
                 Log.d(TAG, "Resource ID is not found");
-                return;
             }
         } catch (PackageManager.NameNotFoundException e) {
             Log.i(TAG, "Error accessing resources for '" + PACKAGE_SVT + "': " + e.getMessage());
-            return;
         }
+
+        return;
+    }
+
+    // Product Spoofing
+    private static void spoofGms(Context context) {
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            Resources resources = pm.getResourcesForApplication(PACKAGE_SPT);
+            int resourceId = resources.getIdentifier("buildProperties", "array", PACKAGE_SPT);
+
+            if (resourceId != 0) {
+                String[] sSpoofProps = resources.getStringArray(resourceId);
+                String[] buildProperties = {"MODEL", "DEVICE", "PRODUCT", "BRAND", "MANUFACTURER", "FINGERPRINT", "TYPE", "TAGS"};
+
+                if (sSpoofProps != null) {
+                    for (String prop : buildProperties) {
+                        int index = Arrays.asList(buildProperties).indexOf(prop);
+                        if (index < sSpoofProps.length && sSpoofProps[index] != null && !sSpoofProps[index].isEmpty()) {
+                            setBuildField(prop, sSpoofProps[index]);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "sSpoofProps is null");
+                }
+            } else {
+                Log.d(TAG, "Resource ID is not found");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.i(TAG, "Error accessing resources for '" + PACKAGE_SPT + "': " + e.getMessage());
+        }
+
+        return;
     }
 
     public static void initApplicationBeforeOnCreate(Context context) {
@@ -101,14 +155,20 @@ public final class AttestationHooks {
             return;
         }
 
+        // Play Integrity
         if (packageName.equals(PACKAGE_GMS) &&
                 processName.equals(PROCESS_UNSTABLE)) {
             sIsGms = true;
-            spoofBuildGms(context);
+            spoofGmsAttest(context);
         }
 
         if (packageName.equals(PACKAGE_FINSKY)) {
             sIsFinsky = true;
+        }
+
+        // Product Spoofing
+        if (spoofProcesses(processName, PROCESSES_SPT)) {
+            spoofGms(context);
         }
     }
 
