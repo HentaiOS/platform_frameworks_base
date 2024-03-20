@@ -118,6 +118,8 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
+import com.android.internal.hentaiutils.HentaiConfigUtils;
+
 /**
  * The Settings provider contains global system-level device preferences.
  */
@@ -19811,7 +19813,18 @@ public final class Settings {
         @RequiresPermission(Manifest.permission.WRITE_DEVICE_CONFIG)
         public static boolean putString(@NonNull String namespace,
                 @NonNull String name, @Nullable String value, boolean makeDefault) {
+            Context context = ActivityThread.currentApplication().getApplicationContext();
             ContentResolver resolver = getContentResolver();
+
+            // Check if the value should be overridden
+            String overriddenValue = HentaiConfigUtils.setOverriddenValue(context, namespace, name);
+            if (overriddenValue != null) {
+                String[] parts = overriddenValue.split("=");
+                if (parts.length == 2) {
+                    value = parts[1];
+                }
+            }
+
             return sNameValueCache.putStringForUser(resolver, createCompositeName(namespace, name),
                     value, null, makeDefault, resolver.getUserId(),
                     DEFAULT_OVERRIDEABLE_BY_RESTORE);
@@ -19832,6 +19845,17 @@ public final class Settings {
         public static boolean setStrings(@NonNull String namespace,
                 @NonNull Map<String, String> keyValues)
                 throws DeviceConfig.BadConfigException {
+            Context context = ActivityThread.currentApplication().getApplicationContext();
+            for (Map.Entry<String, String> entry : keyValues.entrySet()) {
+                String overriddenValue = HentaiConfigUtils.setOverriddenValue(context, namespace, entry.getKey());
+                if (overriddenValue != null) {
+                     String[] parts = overriddenValue.split("=");
+                     if (parts.length == 2) {
+                         keyValues.put(name, parts[1]);
+                    }
+                }
+            }
+
             return setStrings(getContentResolver(), namespace, keyValues);
         }
 
