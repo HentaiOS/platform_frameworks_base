@@ -39,6 +39,10 @@ public final class HentaiSpoofer {
     private static final String PACKAGE_FINSKY = "com.android.vending";
     private static final String PROCESS_UNSTABLE = "com.google.android.gms.unstable";
 
+    private static final String FIRST_API_LEVEL = "persist.helluva.spoofer.first_api_level";
+    private static final String SECURITY_PATCH = "persist.helluva.spoofer.security_patch";
+    private static final String BUILD_ID = "persist.helluva.spoofer.build_id";
+
     private static volatile boolean sIsSvt = false;
     private static volatile boolean sIsGms = false;
     private static volatile boolean sIsFinsky = false;
@@ -81,8 +85,17 @@ public final class HentaiSpoofer {
         return false;
     }
 
+    private static void setSystemProperty(String name, String value) {
+        try {
+            SystemProperties.set(name, value);
+            Log.d(TAG, "Set system prop " + name + "=" + value);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to set system prop " + name + "=" + value, e);
+        }
+    }
+
     // Play Integrity
-    private static void spoofGmsAttest(Context context) {
+    private static void spoofBuildGmsAttest(Context context) {
         PackageManager pm = context.getPackageManager();
 
         try {
@@ -103,7 +116,40 @@ public final class HentaiSpoofer {
                         }
                     }
                 } else {
-                    Log.d(TAG, "sCertifiedProps is null");
+                    Log.d(TAG, "certifiedBuildProperties is null");
+                }
+            } else {
+                Log.d(TAG, "Resource ID is not found");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.i(TAG, "Error accessing resources for '" + PACKAGE_SVT + "': " + e.getMessage());
+        }
+
+        return;
+    }
+
+    private static void spoofSystemGmsAttest(Context context) {
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            Resources resources = pm.getResourcesForApplication(PACKAGE_SVT);
+            int resourceId = resources.getIdentifier("certifiedSystemProperties", "array", PACKAGE_SVT);
+
+            if (resourceId != 0) {
+                String[] sCertifiedProps = resources.getStringArray(resourceId);
+                String[] systemProperties = {"FIRST_API_LEVEL", "SECURITY_PATCH", "BUILD_ID"};
+
+                if (sCertifiedProps != null) {
+                    sIsSvt = true;
+
+                    for (String prop : systemProperties) {
+                        int index = Arrays.asList(systemProperties).indexOf(prop);
+                        if (index < sCertifiedProps.length && sCertifiedProps[index] != null && !sCertifiedProps[index].isEmpty()) {
+                            setSystemProperty(prop, sCertifiedProps[index]);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "certifiedSystemProperties is null");
                 }
             } else {
                 Log.d(TAG, "Resource ID is not found");
@@ -158,8 +204,8 @@ public final class HentaiSpoofer {
         // Play Integrity
         if (packageName.equals(PACKAGE_GMS) &&
                 processName.equals(PROCESS_UNSTABLE)) {
-            sIsGms = true;
-            spoofGmsAttest(context);
+            spoofBuildGmsAttest(context);
+            spoofSystemGmsAttest(context);
         }
 
         if (packageName.equals(PACKAGE_FINSKY)) {
@@ -169,19 +215,6 @@ public final class HentaiSpoofer {
         // Product Spoofing
         if (spoofProcesses(processName, PROCESSES_SPT)) {
             spoofGms(context);
-        }
-    }
-
-    private static boolean isCallerSafetyNet() {
-        return sIsGms && Arrays.stream(Thread.currentThread().getStackTrace())
-                .anyMatch(elem -> elem.getClassName().contains("DroidGuard"));
-    }
-
-    public static void onEngineGetCertificateChain() {
-        // Check stack for SafetyNet or Play Integrity
-        if (sIsSvt && (isCallerSafetyNet() || sIsFinsky)) {
-            Log.i(TAG, "Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);
-            throw new UnsupportedOperationException();
         }
     }
 }
