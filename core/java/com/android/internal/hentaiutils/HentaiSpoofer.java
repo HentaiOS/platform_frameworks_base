@@ -52,6 +52,10 @@ public final class HentaiSpoofer {
         "com.google.android.apps.photos",
         // Pixel Launcher
         "com.google.android.apps.nexuslauncher",
+        // Wallpaper & style
+        "com.google.android.apps.wallpaper",
+        // Pixel Live Wallpaper
+        "com.google.pixel.livewallpaper",
     };
 
     private HentaiSpoofer() { }
